@@ -4,12 +4,12 @@ services:
     image: mongo:latest
     container_name: mongo_db
     ports:
-      - "27017:27017"    # Exposes MongoDB to your host machine
+      - "27017:27017"    # port mapping
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - mongo-data:/data/db  # Persistent storage
+      - mongo-data:/data/db  
 
 volumes:
   mongo-data:
