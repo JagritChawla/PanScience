@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser ,loginUser,updateMyCredentials,getAllUsers , adminUpdateUserRole, deleteMyAccount , getUserById} from "../controllers/userController.js";
+import { registerUser ,loginUser,updateMyCredentials,getAllUsers , adminUpdateUserRole, deleteMyAccount , getUserById , deleteUser} from "../controllers/userController.js";
 import { protectRoute,adminRoute } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -18,5 +18,6 @@ router.delete('/mine', protectRoute, deleteMyAccount);
 
 router.get('/:id', protectRoute, adminRoute, getUserById);
 
+router.delete('/:id', protectRoute, adminRoute, deleteUser)
 
 export default router;

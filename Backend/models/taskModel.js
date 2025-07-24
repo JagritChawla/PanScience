@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const documentSchema = new mongoose.Schema({
     name: String,
-    path: String,
+    url: String,
+     public_id: String,
     contentType: String,
     size: Number
 });

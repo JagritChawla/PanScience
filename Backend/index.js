@@ -1,12 +1,13 @@
-import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+// console.log("Loaded ENV:", process.env);
+
+import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import userRoutes from "./routes/userRoutes.js"
 import taskRoutes from "./routes/taskRoutes.js";
 
-
-dotenv.config();
 
 connectDB();
 

@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+import dotenv from 'dotenv';
+dotenv.config(); // this is needed if this file runs before server.js
+
+
+// console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 export const protectRoute = async (req, res, next) => {
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { 
-  Container, Row, Col, Button, Card, Badge, 
+import {
+  Container, Row, Col, Button, Card, Badge,
   Offcanvas, Stack, Spinner, Form, Alert
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useGetMyTasksQuery } from '../slices/tasksApiSlice';
 import FilterPanel from '../components/FilterPanel';
@@ -10,8 +11,8 @@ import { format } from 'date-fns';
 
 const HomeScreen = () => {
   const { userInfo } = useSelector(state => state.auth);
-  
-  
+
+
   const [filters, setFilters] = useState({
     status: '',
     priority: '',
@@ -19,16 +20,16 @@ const HomeScreen = () => {
     page: 1,
     limit: 10
   });
-  
+
   // State for mobile filters visibility
   const [showFilters, setShowFilters] = useState(false);
-  
-  const { 
-    data, 
-    isLoading, 
+
+  const {
+    data,
+    isLoading,
     isError,
     error,
-    refetch 
+    refetch
   } = useGetMyTasksQuery(filters);
 
   const handleFilterChange = (filterType, value) => {
@@ -99,12 +100,12 @@ const HomeScreen = () => {
           </p>
         </Col>
         <Col xs="auto">
-          <Button 
-            variant="outline-primary" 
+          <Button
+            variant="outline-primary"
             className="d-lg-none"
             onClick={() => setShowFilters(true)}
           >
-            <i className="bi bi-funnel me-1"></i> 
+            <i className="bi bi-funnel me-1"></i>
             {filters.status || filters.priority ? 'Filters Active' : 'Filters'}
           </Button>
         </Col>
@@ -113,7 +114,7 @@ const HomeScreen = () => {
       <Row>
         {/* Filter Sidebar - Hidden on mobile, shown on desktop */}
         <Col lg={3} className="d-none d-lg-block">
-          <FilterPanel 
+          <FilterPanel
             filters={filters}
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
@@ -121,7 +122,7 @@ const HomeScreen = () => {
           />
         </Col>
 
-        
+
         <Col lg={9}>
           {isLoading ? (
             <div className="text-center py-5">
@@ -153,42 +154,52 @@ const HomeScreen = () => {
             <>
               <div className="task-list">
                 {data.tasks.map(task => (
-                  <Card key={task._id} className="mb-3 shadow-sm">
-                    <Card.Body>
-                      <Stack direction="horizontal" gap={2} className="mb-2">
-                        <Badge bg={getPriorityBadge(task.priority)}>
-                          {task.priority}
-                        </Badge>
-                        <Badge bg={getStatusBadge(task.status)}>
-                          {task.status}
-                        </Badge>
-                      </Stack>
-                      
-                      <Card.Title>{task.title}</Card.Title>
-                      <Card.Text className="text-muted">
-                        {task.description.substring(0, 100)}{task.description.length > 100 ? '...' : ''}
-                      </Card.Text>
-                      
-                      <div className="d-flex justify-content-between">
-                        <small className="text-muted">
-                          <i className="bi bi-calendar me-1"></i>
-                          Due: {formatDate(task.dueDate)}
-                        </small>
-                        <small className="text-muted">
-                          <i className="bi bi-person me-1"></i>
-                          Created by: {task.createdBy.email}
-                        </small>
-                      </div>
-                    </Card.Body>
-                  </Card>
+                  <Link
+                    to={`/tasks/${task._id}`}
+                    key={task._id}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <Card className="mb-3 shadow-sm hover-shadow">
+                      <Card.Body>
+                        <Stack direction="horizontal" gap={2} className="mb-2">
+                          <Badge bg={getPriorityBadge(task.priority)}>
+                            {task.priority}
+                          </Badge>
+                          <Badge bg={getStatusBadge(task.status)}>
+                            {task.status}
+                          </Badge>
+                        </Stack>
+
+                        <Card.Title>{task.title}</Card.Title>
+                        <Card.Text className="text-muted">
+                          {task.description?.substring(0, 100)}{task.description?.length > 100 ? '...' : ''}
+                        </Card.Text>
+
+                        <div className="d-flex flex-wrap justify-content-between gap-2">
+                          <small className="text-muted">
+                            <i className="bi bi-calendar me-1"></i>
+                            Due: {formatDate(task.dueDate)}
+                          </small>
+                          <small className="text-muted">
+                            <i className="bi bi-person me-1"></i>
+                            Created by: {task.createdBy?.email || 'System'}
+                          </small>
+                          <small className="text-muted">
+                            <i className="bi bi-person-check me-1"></i>
+                            Assigned to: {task.assignedTo?.email || 'Unassigned'}
+                          </small>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
                 ))}
               </div>
-              
+
               {/* Pagination */}
               {data.total > filters.limit && (
                 <div className="d-flex justify-content-between mt-4">
-                  <Button 
-                    variant="outline-primary" 
+                  <Button
+                    variant="outline-primary"
                     disabled={filters.page === 1}
                     onClick={prevPage}
                   >
@@ -197,8 +208,8 @@ const HomeScreen = () => {
                   <span>
                     Page {filters.page} of {data.pages}
                   </span>
-                  <Button 
-                    variant="outline-primary" 
+                  <Button
+                    variant="outline-primary"
                     disabled={filters.page === data.pages}
                     onClick={nextPage}
                   >
@@ -211,21 +222,21 @@ const HomeScreen = () => {
         </Col>
       </Row>
 
-     
+
       <Offcanvas show={showFilters} onHide={() => setShowFilters(false)} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Filters & Sort</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <FilterPanel 
+          <FilterPanel
             filters={filters}
             onFilterChange={handleFilterChange}
             onSortChange={handleSortChange}
             onReset={resetFilters}
           />
           <div className="mt-3">
-            <Button 
-              variant="primary" 
+            <Button
+              variant="primary"
               className="w-100"
               onClick={() => setShowFilters(false)}
             >
