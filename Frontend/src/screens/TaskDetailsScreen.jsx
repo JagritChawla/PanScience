@@ -1,4 +1,4 @@
-// src/screens/TaskDetailsScreen.js
+
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Spinner, Tabs, Tab } from 'react-bootstrap';
@@ -9,12 +9,12 @@ const TaskDetailsScreen = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState(0);
   
-  // Use RTK Query to fetch task data
   const { 
     data: task, 
     isLoading, 
     error 
   } = useGetTaskByIdQuery(id);
+  console.log(task);
 
   // Function to fix Cloudinary URL for preview
   const getPreviewUrl = (url) => {

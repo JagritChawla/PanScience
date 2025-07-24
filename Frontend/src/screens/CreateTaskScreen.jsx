@@ -1,4 +1,4 @@
-// src/screens/CreateTaskScreen.jsx
+
 import React, { useState } from 'react';
 import { 
   Container, Form, Button, Row, Col, 
@@ -13,7 +13,7 @@ const CreateTaskScreen = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector(state => state.auth);
   
-  // Form state
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -23,16 +23,13 @@ const CreateTaskScreen = () => {
     assignedTo: ''
   });
   
-  // Validation errors
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [success, setSuccess] = useState('');
   const [files, setFiles] = useState([]);
   
-  // RTK Query mutation for creating task
   const [createTask, { isLoading }] = useCreateTaskMutation();
   
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -43,7 +40,6 @@ const CreateTaskScreen = () => {
     }
   };
   
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
     
@@ -51,7 +47,6 @@ const CreateTaskScreen = () => {
     if (!formData.description.trim()) newErrors.description = 'Description is required';
     if (!formData.dueDate) newErrors.dueDate = 'Due date is required';
     
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.assignedTo) {
       newErrors.assignedTo = 'Assigned user email is required';
@@ -63,7 +58,7 @@ const CreateTaskScreen = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  // Handle form submission with RTK Query
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -73,10 +68,9 @@ const CreateTaskScreen = () => {
       setApiError('');
       setSuccess('');
       
-      // Create form data
       const formDataToSend = new FormData();
       
-      // Append all form values
+      
       Object.entries(formData).forEach(([key, value]) => {
         formDataToSend.append(key, value);
       });
@@ -86,7 +80,7 @@ const CreateTaskScreen = () => {
         formDataToSend.append('documents', file);
       });
       
-      // Execute the mutation
+      
       const res = await createTask(formDataToSend).unwrap();
       
       setSuccess('Task created successfully!');
@@ -98,11 +92,10 @@ const CreateTaskScreen = () => {
     }
   };
 
-  // Handle file selection
+
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     
-    // Check file count
     if (files.length + selectedFiles.length > 3) {
       setApiError('Maximum 3 documents allowed');
       return;
@@ -157,7 +150,7 @@ const CreateTaskScreen = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 
-                {/* Description */}
+               
                 <Form.Group className="mb-3">
                   <Form.Label>Description *</Form.Label>
                   <Form.Control
@@ -175,7 +168,7 @@ const CreateTaskScreen = () => {
                 </Form.Group>
                 
                 <Row>
-                  {/* Status */}
+              
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Status *</Form.Label>
@@ -191,7 +184,7 @@ const CreateTaskScreen = () => {
                     </Form.Group>
                   </Col>
                   
-                  {/* Priority */}
+                 
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Priority *</Form.Label>
@@ -209,7 +202,7 @@ const CreateTaskScreen = () => {
                 </Row>
                 
                 <Row>
-                  {/* Due Date */}
+                  
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Due Date *</Form.Label>
@@ -250,11 +243,11 @@ const CreateTaskScreen = () => {
                   </Col>
                 </Row>
                 
-                {/* Document Upload */}
+                
                 <Form.Group className="mb-4">
                   <Form.Label>Attach Documents (PDF only, max 3)</Form.Label>
                   
-                  {/* File input */}
+                  
                   <Form.Control
                     type="file"
                     accept=".pdf"
@@ -263,7 +256,7 @@ const CreateTaskScreen = () => {
                     disabled={files.length >= 3}
                   />
                   
-                  {/* Selected files preview */}
+                 
                   {files.length > 0 && (
                     <div className="mt-3">
                       <small className="d-block mb-2">Selected files:</small>
@@ -292,7 +285,7 @@ const CreateTaskScreen = () => {
                   )}
                 </Form.Group>
                 
-                {/* Submit Button */}
+               
                 <div className="d-flex justify-content-end gap-2">
                   <Button 
                     variant="outline-secondary" 

@@ -1,4 +1,4 @@
-// src/screens/UpdateTaskScreen.jsx
+
 import React, { useState, useEffect } from 'react';
 import { 
   Container, Form, Button, Row, Col, 
@@ -15,7 +15,7 @@ const UpdateTaskScreen = () => {
   const { id: taskId } = useParams();
   const { userInfo } = useSelector(state => state.auth);
   
-  // Fetch task data
+
   const { 
     data: task, 
     isLoading: isLoadingTask, 
@@ -24,7 +24,7 @@ const UpdateTaskScreen = () => {
     refetch: refetchTask
   } = useGetTaskByIdQuery(taskId);
   
-  // Form state
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -34,14 +34,14 @@ const UpdateTaskScreen = () => {
     assignedTo: ''
   });
   
-  // Validation errors
+
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [files, setFiles] = useState([]);
   const [existingFiles, setExistingFiles] = useState([]);
   const [filesToDelete, setFilesToDelete] = useState([]);
   
-  // RTK Query mutation for updating task
+  
   const [updateTask, { isLoading }] = useUpdateTaskMutation();
   
   // Populate form when task data is available
@@ -93,7 +93,7 @@ const UpdateTaskScreen = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  // Handle form submission with RTK Query
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -102,20 +102,18 @@ const UpdateTaskScreen = () => {
     try {
       setApiError('');
       
-      // Create form data
+    
       const formDataToSend = new FormData();
       
-      // Append all form values
+      
       Object.entries(formData).forEach(([key, value]) => {
         formDataToSend.append(key, value);
       });
-      
-      // Append files to delete
+   
       filesToDelete.forEach(fileId => {
         formDataToSend.append('filesToDelete', fileId);
       });
-      
-      // Append new files
+     
       files.forEach(file => {
         formDataToSend.append('documents', file);
       });
@@ -151,7 +149,7 @@ const UpdateTaskScreen = () => {
       return;
     }
     
-    // Update files state
+    
     setFiles(prev => [...prev, ...selectedFiles]);
   };
 

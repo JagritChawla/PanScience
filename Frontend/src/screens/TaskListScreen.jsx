@@ -21,7 +21,6 @@ const TaskListScreen = () => {
         createdBy: ''
     });
 
-    // State for mobile filters visibility
     const [showFilters, setShowFilters] = useState(false);
 
     const {
@@ -36,7 +35,7 @@ const TaskListScreen = () => {
         setFilters(prev => ({
             ...prev,
             [filterType]: value,
-            page: 1 // reset to first page when filters change
+            page: 1
         }));
     };
 
@@ -127,7 +126,7 @@ const TaskListScreen = () => {
                         onFilterChange={handleFilterChange}
                         onSortChange={handleSortChange}
                         onReset={resetFilters}
-                        showUserFilters={true} // Add this prop to show user filters
+                        showUserFilters={true} 
                     />
                 </Col>
 
