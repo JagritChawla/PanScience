@@ -1,7 +1,7 @@
 
 services:
   mongodb:
-    image: mongo:latest
+    image: jagritchawla/panscience-db:latest
     container_name: mongo_db
     ports:
       - "27017:27017"    # port mapping
@@ -9,7 +9,22 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - mongo-data:/data/db  
+      - mongo-data:/data/db
+    network_mode: "host"
+  
+  frontend:
+    image: jagrit/panscience-frontend:latest
+    container_name: panscience_frontend
+    ports:
+      - "5173:3000"    # port mapping
+  
+  backend:
+    image: jagrit/panscience-backend:latest
+    container_name: panscience_backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
 
 volumes:
   mongo-data:
