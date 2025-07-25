@@ -4,7 +4,7 @@ import {
     Container, Row, Col, Button, Card, Badge,
     Offcanvas, Stack, Spinner, Form, Alert
 } from 'react-bootstrap';
-import { useGetAllTasksQuery } from '../slices/tasksApiSlice';
+import { useGetAllTasksQuery, useDeleteTaskMutation } from '../slices/tasksApiSlice';
 import FilterPanel from '../components/FilterPanel';
 import { format } from 'date-fns';
 import { FaPlus } from 'react-icons/fa';
@@ -22,6 +22,9 @@ const TaskListScreen = () => {
     });
 
     const [showFilters, setShowFilters] = useState(false);
+
+
+    const [deleteTask] = useDeleteTaskMutation();
 
     const {
         data,
@@ -126,7 +129,7 @@ const TaskListScreen = () => {
                         onFilterChange={handleFilterChange}
                         onSortChange={handleSortChange}
                         onReset={resetFilters}
-                        showUserFilters={true} 
+                        showUserFilters={true}
                     />
                 </Col>
 
@@ -166,48 +169,75 @@ const TaskListScreen = () => {
                                             to={`/tasks/${task._id}`}
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
-                                             <Card className="mb-3 shadow-sm hover-shadow">
-                                            <Card.Body>
-                                                <Stack direction="horizontal" gap={2} className="mb-2">
-                                                    <Badge bg={getPriorityBadge(task.priority)}>
-                                                        {task.priority}
-                                                    </Badge>
-                                                    <Badge bg={getStatusBadge(task.status)}>
-                                                        {task.status}
-                                                    </Badge>
-                                                </Stack>
+                                            <Card className="mb-3 shadow-sm hover-shadow">
+                                                <Card.Body>
+                                                    <Stack direction="horizontal" gap={2} className="mb-2">
+                                                        <Badge bg={getPriorityBadge(task.priority)}>
+                                                            {task.priority}
+                                                        </Badge>
+                                                        <Badge bg={getStatusBadge(task.status)}>
+                                                            {task.status}
+                                                        </Badge>
+                                                    </Stack>
 
-                                                <Card.Title>{task.title}</Card.Title>
-                                                <Card.Text className="text-muted">
-                                                    {task.description?.substring(0, 100)}{task.description?.length > 100 ? '...' : ''}
-                                                </Card.Text>
+                                                    <Card.Title>{task.title}</Card.Title>
+                                                    <Card.Text className="text-muted">
+                                                        {task.description?.substring(0, 100)}{task.description?.length > 100 ? '...' : ''}
+                                                    </Card.Text>
 
-                                                <div className="d-flex flex-wrap justify-content-between gap-2">
-                                                    <small className="text-muted">
-                                                        <i className="bi bi-calendar me-1"></i>
-                                                        Due: {formatDate(task.dueDate)}
-                                                    </small>
-                                                    <small className="text-muted">
-                                                        <i className="bi bi-person me-1"></i>
-                                                        Created by: {task.createdBy?.email || 'System'}
-                                                    </small>
-                                                    <small className="text-muted">
-                                                        <i className="bi bi-person-check me-1"></i>
-                                                        Assigned to: {task.assignedTo?.email || 'Unassigned'}
-                                                    </small>
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
+                                                    <div className="d-flex flex-wrap justify-content-between gap-2">
+                                                        <small className="text-muted">
+                                                            <i className="bi bi-calendar me-1"></i>
+                                                            Due: {formatDate(task.dueDate)}
+                                                        </small>
+                                                        <small className="text-muted">
+                                                            <i className="bi bi-person me-1"></i>
+                                                            Created by: {task.createdBy?.email || 'System'}
+                                                        </small>
+                                                        <small className="text-muted">
+                                                            <i className="bi bi-person-check me-1"></i>
+                                                            Assigned to: {task.assignedTo?.email || 'Unassigned'}
+                                                        </small>
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
                                         </Link>
 
-                                        {/* Update Task Button */}
+                                        {/* Update Task Button
                                         <div className="position-absolute" style={{ top: '10px', right: '10px' }}>
                                             <Link to={`/update-task/${task._id}`}>
                                                 <Button variant="outline-primary" size="sm" onClick={(e) => e.stopPropagation()}>
                                                     <i className="bi bi-pencil me-1"></i> Update Task
                                                 </Button>
                                             </Link>
+                                        </div> */}
+                                        <div className="position-absolute d-flex gap-1" style={{ top: '10px', right: '10px' }}>
+                                            {/* Update Button */}
+                                            <Link to={`/update-task/${task._id}`}>
+                                                <Button
+                                                    variant="outline-primary"
+                                                    size="sm"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <i className="bi bi-pencil me-1"></i> Update
+                                                </Button>
+                                            </Link>
+
+                                            {/* Delete Button */}
+                                            <Button
+                                                variant="outline-danger"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (window.confirm('Are you sure you want to delete this task?')) {
+                                                        deleteTask(task._id);
+                                                    }
+                                                }}
+                                            >
+                                                <i className="bi bi-trash me-1"></i> Delete
+                                            </Button>
                                         </div>
+
                                     </div>
                                 ))}
                             </div>

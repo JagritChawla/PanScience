@@ -19,8 +19,6 @@ router.get('/:id', protectRoute, getTaskById);
 router.put('/:id', protectRoute, adminRoute, upload.array('documents', 3), updateTask);
 
 
-
-
 router.delete('/:id', protectRoute, adminRoute, deleteTask);
 
 export default router;

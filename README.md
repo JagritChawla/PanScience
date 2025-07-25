@@ -26,6 +26,7 @@ A full-stack task management application with a modern React frontend and a Node
   - View, create, update, and delete tasks (admin only for create/update/delete).
   - Assign tasks to users, set priorities, due dates, and upload PDF documents.
   - Filter, sort, and paginate tasks.
+  
 - **User Management (Admin):**
   - View all users, edit user roles, and delete users.
 - **Document Management:**
@@ -156,12 +157,57 @@ PanScience/
 
 ---
 
+
+## Workflow
+
+### Authentication
+**Register/Login**  
+![Login Screenshot](/images/login.png)  
+*Secure JWT-based authentication flow*
+
+### Normal User Experience
+**Home Page**  
+![Homepage Screenshot](/images/homepage.png)  
+*Tasks assigned to current user with status indicators*
+
+**Task Details**  
+*View task details and attached documents (PDF preview)*
+
+
+**Update Profile**  
+*Edit personal credentials*
+
+### Admin Experience
+**Admin Dashboard**  
+![Admin Homepage Screenshot](/images/adminHomepage.png)  
+*Overview with quick access to all management features*
+
+**User Management**  
+![All Users Screenshot](/images/allUsers.png)  
+*View/edit user roles and accounts*
+
+**Task Management**  
+![All Tasks Screenshot](/images/allTasks.png)  
+*Global task list with filtering/sorting*
+
+**Create Task**  
+![Create Task Screenshot](/images/createTask.png)  
+*Assign tasks with priority/dates/attachments*
+
+**Update Task**  
+![Update Task Screenshot](/images/updateTask.png)  
+*Modify existing tasks and documents*
+
+
+---
+
+
 ## Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
-## License
 
-[MIT](LICENSE) 
+
+
