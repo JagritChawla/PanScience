@@ -14,6 +14,8 @@ A full-stack task management application with a modern React frontend and a Node
   - [Running with Docker Compose](#running-with-docker-compose)
 - [API Overview](#api-overview)
 - [Environment Variables](#environment-variables)
+- [Workflow](#workflow)
+- [Admin Credentials](#admin-credentials)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -201,6 +203,11 @@ PanScience/
 
 ---
 
+## Admin Credentials
+
+For testing purposes, you can use the following admin account:
+Email: admin@gmail.com
+Password: 654321 or 123456
 
 ## Contributing
 
