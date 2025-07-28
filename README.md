@@ -205,9 +205,15 @@ PanScience/
 
 ## Admin Credentials
 
-For testing purposes, you can use the following admin account:
+**For testing purposes, you can use the following admin account:**
+
 Email: admin@gmail.com
 Password: 654321 or 123456
+
+*Credentials are for evaluation only.In a real system, I would implement proper user onboarding.*
+
+---
+
 
 ## Contributing
 
